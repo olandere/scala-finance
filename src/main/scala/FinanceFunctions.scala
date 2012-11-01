@@ -1,8 +1,8 @@
 object FinanceFunctions {
 
-  def mean(data: List[Double]): Double =
+  def mean(data: List[Double], adjust: Int = 0): Double =
     if (data.isEmpty) 0
-    else data.sum / data.length
+    else data.sum / (data.length - adjust)
 
   //todo: better name as this could cover any time span
   def dailyReturn(prices: List[Double]) = 0.0 :: ((prices.tail zip prices) map {
@@ -15,7 +15,7 @@ object FinanceFunctions {
 
   def stdDev(data: List[Double]): Double = {
     val avg = mean(data)
-    math.sqrt(mean(data.map(x => square(x - avg))))
+    math.sqrt(mean(data.map(x => square(x - avg)), 1))
   }
 
   def sharpeRatio(prices: List[Double]) = {
