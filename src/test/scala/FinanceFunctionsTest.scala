@@ -1,7 +1,8 @@
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
 
-class FinanceFunctionsTest extends FlatSpec with ShouldMatchers {
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+
+class FinanceFunctionsTest extends AnyFlatSpec with Matchers {
 
   "mean" should "return 0 for empty list" in {
     FinanceFunctions.mean(Nil) should equal (0)
