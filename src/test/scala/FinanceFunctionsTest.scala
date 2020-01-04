@@ -13,10 +13,20 @@ class FinanceFunctionsTest extends AnyFlatSpec with Matchers {
   }
 
   "stdDev" should "do something" in {
-    val prices = ResourceLoader.load("/spy.txt").map(s => s.toDouble)
+    val prices = ResourceLoader.load("/spy.csv").tail.map(HistoricalPriceRecord.apply).sorted.map(_.adjClose)
     FinanceFunctions.stdDev(FinanceFunctions.dailyReturn(prices))
     println(FinanceFunctions.averageReturn(prices))
-    (FinanceFunctions.sharpeRatio(prices)*1000).toInt/1000.0 should equal (0.152)
+    val ratio = FinanceFunctions.sharpeRatio(prices)
+    println(ratio)
+    (ratio*1000).toInt/1000.0 should equal (0.152)
+  }
+
+  "correlationCoef" should "return -0.989" in {
+    math.round(FinanceFunctions.correlationCoef(List(8.0, 4.0, 5.0, -1.0, 1.0, 2.0, 6.0), List(-2.0, 2.0, 1.0, 6.0, 4.0, 3.0, -1.0))*1000)/1000.0 should equal (-0.989)
+  }
+
+  "covariance" should "return -17.082" in {
+    math.round(FinanceFunctions.covariance(List(8.0, 4.0, 5.0, -1.0, 1.0, 2.0, 6.0), List(-2.0, 2.0, 1.0, 6.0, 4.0, 3.0, -1.0))*1000)/1000.0 should equal (-17.082)
   }
 
 }
